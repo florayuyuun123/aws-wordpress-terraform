@@ -1,0 +1,73 @@
+# Terraform WordPress AWS Deployment
+
+This Terraform project deploys a WordPress site on AWS with the following components:
+- EC2 instance for the WordPress application
+- RDS Aurora MySQL database
+- EFS file system for shared WordPress content
+- VPC with public and private subnets
+- Security groups for each component
+- s3 bucket for storing the state file 
+
+## Architecture
+
+```
+┌───────────────┐         ┌─────────────────┐         ┌───────────────┐
+│               │         │                 │         │               │
+│     Users     ├────────►│    WordPress    ├────────►│  RDS MySQL    │
+│               │         │    EC2 + EFS    │         │               │
+└───────────────┘         └─────────────────┘         └───────────────┘
+```
+
+- WordPress runs on an EC2 instance in a public subnet
+- The database runs in an RDS instance in a private subnet
+- WordPress content is stored on an EFS file system
+- Security groups control access between components
+
+## Prerequisites
+
+- AWS CLI configured with appropriate credentials
+- Terraform installed (version >= 1.0)
+- SSH key pair created in AWS
+
+## Module Structure
+
+- **networking**: VPC, subnets, route tables, internet gateway
+- **security_groups**: Security groups for EC2, RDS, and EFS
+- **database**: RDS MySQL instance
+- **wordpress**: EC2 instance and EFS file system
+
+## Usage
+
+1. Initialize Terraform:
+
+```
+terraform init -backend-config="bucket=YOUR_S3_BUCKET" -backend-config="key=wordpress/terraform.tfstate" -backend-config="region=us-east-1"
+```
+
+2. Create a `terraform.tfvars` file with your configuration values.
+
+3. Review the deployment plan:
+
+```
+terraform plan
+```
+
+4. Apply the configuration:
+
+```
+terraform apply
+```
+
+5. Access your WordPress site using the output URL:
+
+```
+terraform output wordpress_url
+```
+
+## Clean Up
+
+To destroy all resources:
+
+```
+terraform destroy
+```
