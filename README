@@ -10,7 +10,7 @@ This Terraform project deploys a WordPress site on AWS with the following compon
 
 ## Architecture
 
-![WORDPRESS-PROJECT-ARCHITECTURE](WORDPRESS-PROJECT.jpg)
+![WORDPRESS-PROJECT-ARCHITECTURE](2.jpg)
 
 - WordPress runs on an EC2 instance in a public subnet
 - The database runs in an RDS instance in a private subnet
